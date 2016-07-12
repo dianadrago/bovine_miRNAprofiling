@@ -224,3 +224,14 @@ $ cutadapt -q 10 --discard-untrimmed -m 15 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC
 # out: /labs/proyectos/mirnas_vaca/clipped-vaca-bcgsc/SRR578754_trimmed.fastq.gz
 $ cutadapt -q 10 --discard-untrimmed -m 15 -a AGATCGGAAGAGCACACGTCTGAACTCCAGTCACACTTGAATCTCGTATGCCGTCTTCTGCTTG -o /labs/proyectos/mirnas_vaca/clipped-vaca-bcgsc/SRR578754_trimmed.fastq.gz /labs/proyectos/mirnas_vaca/fastq_vaca/SRR578754.fastq.gz
 
+# aligment
+# miniconda path /home/diana/miniconda2
+# conda config --add channels r
+# conda config --add channels bioconda
+$ conda create -p /labs/proyectos/mirnas_vaca/bwa_env bwa=0.7.15
+$ source activate bwa_env/
+$ source deactivate
+
+# create reference genome index:
+$ /labs/proyectos/mirnas_vaca/RNASeq_vaca/genome_vaca/genome$ bwa index bosTau8.fa.gz
+
