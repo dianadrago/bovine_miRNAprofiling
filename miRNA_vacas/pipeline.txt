@@ -12,27 +12,27 @@
 # download data and create a metadata file:
 # metadata_vaca.txt:
 	sra     	sample  	hour    type    	replicate
-1       SRR578731.sra   GSM1013451      1       control 		1
-2       SRR578732.sra   GSM1013452      1       control 		2
-3       SRR578733.sra   GSM1013453      1       control 		3
+1       SRR578731.sra   GSM1013451      1       control 	1
+2       SRR578732.sra   GSM1013452      1       control 	2
+3       SRR578733.sra   GSM1013453      1       control 	3
 4       SRR578734.sra   GSM1013454      1       infected        1
 5       SRR578735.sra   GSM1013455      1       infected        2
 6       SRR578736.sra   GSM1013456      1       infected        3
-7       SRR578737.sra   GSM1013457      2       control 		1
-8       SRR578738.sra   GSM1013458      2       control 		2
-9       SRR578739.sra   GSM1013459      2       control 		3
+7       SRR578737.sra   GSM1013457      2       control 	1
+8       SRR578738.sra   GSM1013458      2       control 	2
+9       SRR578739.sra   GSM1013459      2       control 	3
 10      SRR578740.sra   GSM1013460      2       infected        1
 11      SRR578741.sra   GSM1013461      2       infected        2
 12      SRR578742.sra   GSM1013462      2       infected        3
-13      SRR578743.sra   GSM1013463      4       control 		1
-14      SRR578744.sra   GSM1013464      4       control 		2
-15      SRR578745.sra   GSM1013465      4       control 		3
+13      SRR578743.sra   GSM1013463      4       control 	1
+14      SRR578744.sra   GSM1013464      4       control 	2
+15      SRR578745.sra   GSM1013465      4       control 	3
 16      SRR578746.sra   GSM1013466      4       infected        1
 17      SRR578747.sra   GSM1013467      4       infected        2
 18      SRR578748.sra   GSM1013468      4       infected        3
-19      SRR578749.sra   GSM1013469      6       control 		1
-20      SRR578750.sra   GSM1013470      6       control 		2
-21      SRR578751.sra   GSM1013471      6       control 		3
+19      SRR578749.sra   GSM1013469      6       control 	1
+20      SRR578750.sra   GSM1013470      6       control 	2
+21      SRR578751.sra   GSM1013471      6       control 	3
 22      SRR578752.sra   GSM1013472      6       infected        1
 23      SRR578753.sra   GSM1013473      6       infected        2
 24      SRR578754.sra   GSM1013474      6       infected        3
@@ -233,5 +233,6 @@ $ source activate bwa_env/
 $ source deactivate
 
 # create reference genome index:
-$ /labs/proyectos/mirnas_vaca/RNASeq_vaca/genome_vaca/genome$ bwa index bosTau8.fa.gz
+$ gzip -d /labs/proyectos/mirnas_vaca/RNASeq_vaca/genome_vaca/genome/bosTau8.fa.gz
+$ /labs/proyectos/mirnas_vaca/RNASeq_vaca/genome_vaca/genome$ bwa index bosTau8.fa
 
