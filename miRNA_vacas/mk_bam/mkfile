@@ -1,0 +1,44 @@
+TARGETS=`{find /labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/ \
+        -name '*.sa*' \
+&& \
+find /labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/ \
+        -name '*.sam' \
+| sed -e 's#.sam#.unsorted.bam#g' \
+&& \
+find /labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/ \
+        -name '*.sam' \
+| sed -e 's#.sam#.bam#g' \
+&& \
+find /labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/ \
+        -name '*.sam' \
+| sed -e 's#.sam#.bam.bai#g' \
+}
+
+annotate:V:	$TARGETS
+
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.unsorted.bam:D:	\
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sam
+	stem=$stem
+	samtools view -bS \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sam' \
+		> '/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.unsorted.bam' || exit 1
+
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sorted.bam:D:	\
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.unsorted.bam 
+	stem=$stem
+	samtools sort \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.unsorted.bam' \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sorted' || exit 1
+
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.bam:D:	\
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sorted.bam 
+	stem=$stem
+	mv \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sorted.bam' \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.bam' || exit 1
+
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.bam.bai:D:	\
+/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.bam
+	stem=$stem
+	samtools index \
+		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.bam' || exit 1
