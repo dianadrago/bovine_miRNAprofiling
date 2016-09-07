@@ -1,47 +1,31 @@
 
-
+bta <- read.table("/mnt/e/diana/mirna_vaca/RNASeq_vaca/BCGSC/adf_mirnas_vaca_filtrado.txt", row.names=1, header=T, blank.lines.skip=FALSE)
 hsa <- read.table("/mnt/e/diana/mirna_vaca/RNAseq_hsa/BCGSC_hsa/adf_filtro_hsa_vaca.txt", row.names=1, header=T, blank.lines.skip=FALSE)
 
-mimat1 <- hsa[,4:6]
-mimat2 <- hsa[,c(4, 7, 8)]
-colnames(mimat2) <- colnames(mimat1)
-mimat <- rbind(mimat1, mimat2)
+mature_mir_sequence <- function(adf_species){
 
-coord1 <- gsub('.{3}$','', mimat[,2])
-class(coord1) <- "numeric"
-coord2 <- gsub('.*-','', mimat[,2])
-class(coord2) <- "numeric"
+	mimat1 <- adf_species[,4:6]
+	mimat2 <- adf_species[,c(4, 7, 8)]
+	colnames(mimat2) <- colnames(mimat1)
+	mimat <- rbind(mimat1, mimat2)
 
-b <- as.vector(mimat[,1])
-s1 <- nchar(b)-coord1
-cc = substr(b,1, coord1-1)
-corte1 <- as.vector(mapply(gsub, cc, '', b))
-s <- nchar(b)-coord2
-cc2 = substr(corte1,1, nchar(corte1)-s)
-corte2 <- as.vector(mapply(gsub, corte1, '', cc2))
+	coord_1 <- gsub('.{3}$','', mimat[,2])
+	class(coord_1) <- "numeric"
+	coord_2 <- gsub('.*-','', mimat[,2])
+	class(coord_2) <- "numeric"
 
-MIMAT <- cbind(mimat, corte2)
+	precursor <- as.vector(mimat[,1])
+	residual_1 = substr(precursor,1, coord_1-1)
+	fun <- paste("^", residual_1, sep="")
+	cut_1 <- as.vector(mapply(gsub, fun, '', precursor))
 
-bta <- read.table("/mnt/e/diana/mirna_vaca/RNASeq_vaca/BCGSC/adf_mirnas_vaca_filtrado.txt", row.names=1, header=T, blank.lines.skip=FALSE)
+	mir_size <- coord_2 - coord_1
+	residual_2 = substr(cut_1,1, mir_size+1)
+	mature_mir <- as.vector(mapply(gsub, cut_1, '', residual_2))
 
-mimat3 <- bta[,4:6]
-mimat4 <- bta[,c(4, 7, 8)]
-colnames(mimat4) <- colnames(mimat3)
-mimat_vaca <- rbind(mimat3, mimat4)
+	MIMAT_bta <- cbind(mimat, mature_mir)
+}
 
-coord1_vaca <- gsub('.{3}$','', mimat_vaca[,2])
-class(coord1_vaca) <- "numeric"
-coord2_vaca <- gsub('.*-','', mimat_vaca[,2])
-class(coord2_vaca) <- "numeric"
-###### corregir humano#####
-b_vaca <- as.vector(mimat_vaca[,1])
-cc_vaca = substr(b_vaca,1, coord1_vaca-1)
-z <- paste("^", cc_vaca, sep="")
-corte1_vaca <- mapply(gsub, z, '', b_vaca)
 
-prueba <- coord2_vaca - coord1_vaca
-s_vaca <- nchar(b_vaca)-coord2_vaca
-cc2_vaca = substr(corte1_vaca,1, prueba+1)
-corte2_vaca <- as.vector(mapply(gsub, corte1_vaca, '', cc2_vaca))
-
-MIMAT_vaca <- cbind(mimat_vaca, corte2_vaca)
+bos_taurus <- mature_mir_sequence(bta)
+homo_sapiens <- mature_mir_sequence(hsa)
