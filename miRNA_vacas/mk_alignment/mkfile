@@ -1,32 +1,32 @@
-REFERENCE=/labs/proyectos/mirnas_vaca/RNASeq_vaca/genome_vaca/genome/bosTau8.fa
+REFERENCE=/mnt/e/diana/mirna_vaca/RNASeq_vaca/genome_vaca/genome/bosTau8.fa
 
-TARGETS=`{find /labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/ \
+TARGETS=`{find /mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/ \
 	-name '*_trimmed.fastq.gz' \
-| sed -e 's#/labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/#/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/#g' \
+| sed -e 's#/mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/#/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/#g' \
 	-e 's#_trimmed.fastq.gz#.sam#g' \
 }
 
 alignments:V:	$TARGETS
 
-/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sai:D:	\
-/labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/%_trimmed.fastq.gz
+/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/%.sai:D:	\
+/mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/%_trimmed.fastq.gz
 	stem=$stem
-        bash -c ". /labs/proyectos/mirnas_vaca/bwa_env/bin/activate /labs/proyectos/mirnas_vaca/bwa_env/
+        bash -c ". /mnt/e/diana/mirna_vaca/bwa_env/bin/activate /mnt/e/diana/mirna_vaca/bwa_env/
 	bwa aln \
                 $REFERENCE \
-                '/labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/'$stem'_trimmed.fastq.gz' \
-                > '/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sai' || exit 1
-	. /labs/proyectos/mirnas_vaca/bwa_env/bin/deactivate"
+                '/mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/'$stem'_trimmed.fastq.gz' \
+                > '/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sai' || exit 1
+	. /mnt/e/diana/mirna_vaca/bwa_env/bin/deactivate"
 
 
-/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sam:D:	\
-/labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/%_trimmed.fastq.gz \
-/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/%.sai
+/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/%.sam:D:	\
+/mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/%_trimmed.fastq.gz \
+/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/%.sai
 	stem=$stem
-	bash -c ". /labs/proyectos/mirnas_vaca/bwa_env/bin/activate /labs/proyectos/mirnas_vaca/bwa_env/
+	bash -c ". /mnt/e/diana/mirna_vaca/bwa_env/bin/activate /mnt/e/diana/mirna_vaca/bwa_env/
 	bwa samse \
 		$REFERENCE \
-		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sai' \
-		'/labs/proyectos/mirnas_vaca/RNASeq_vaca/clipped_fastq_vaca/'$stem'_trimmed.fastq.gz' \
-		> '/labs/proyectos/mirnas_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sam' || exit 1
-	. /labs/proyectos/mirnas_vaca/bwa_env/bin/deactivate"
+		'/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sai' \
+		'/mnt/e/diana/mirna_vaca/RNASeq_vaca/clipped_fastq_vaca/'$stem'_trimmed.fastq.gz' \
+		> '/mnt/e/diana/mirna_vaca/RNASeq_vaca/mapping_vaca/'$stem'.sam' || exit 1
+	. /mnt/e/diana/mirna_vaca/bwa_env/bin/deactivate"
