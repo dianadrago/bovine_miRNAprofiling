@@ -1,0 +1,22 @@
+# archivos ordenados solo lista de secuencias
+
+sort -nr BP_miR103.txt | awk '{print $2}' > blbla.seq
+
+# traer mariana.py
+
+cp /mnt/e/diana/mirna_vaca/bovine_miRNAprofiling/miRNA_vacas/mariana.py .
+
+# dar permisos de ejec a mariana.py cuando se mueva
+
+chmod +x mariana.py
+
+# la secuencia que se obtiene de marinana.py se usa en lo siguiente
+
+# secuencias 3'
+
+sed 's/.*secuencia//g' archivo_mir_ord.seq | less -S
+
+# secuencias 5'
+
+sed 's/secuencia.*//g' archivo_mir_ord.seq | wc -l
+
